@@ -39,7 +39,7 @@ for (i=0; i<960;i++) {
 console.log(app.pixel_map.length, app.pixel_map[0].length);
 
 PIXI.loader
-    .add("placeholder_image.png")
+    .add("assets/player.png")
     .load(function () {
         app.setup();
     });
@@ -49,13 +49,15 @@ app.setup = function () {
     app.bindKeys();
 
     // Set up player
-    app.test = new PIXI.Sprite(PIXI.loader.resources["placeholder_image.png"].texture);
+    app.test = new PIXI.Sprite(PIXI.loader.resources["assets/player.png"].texture);
     app.test.x = 340;
     app.stage.addChild(app.test);
     app.mouse_state = 'off';
     app.mouse_pressed = false;
 
     app.c = 0;
+    app.player = new app.playerObj(100, 100);
+    app.player.setup();
 
     // Start the game loop
     app.gameLoop();
@@ -90,7 +92,8 @@ app.gameLoop = function () {
 }
 
 app.play = function () {
-    
+    // Player reacts to inputs for this frame from keybinds.js
+    app.player.physics();
+    app.player.move();
+    app.player.cameraAdjust(0,0);
 }
-
-app.setup();
