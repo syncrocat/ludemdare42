@@ -51,13 +51,12 @@ app.setup = function () {
     // Set up player
     app.test = new PIXI.Sprite(PIXI.loader.resources["assets/player.png"].texture);
     app.test.x = 340;
-    //app.stage.addChild(app.test);
+    app.stage.addChild(app.test);
     app.mouse_state = 'off';
     app.mouse_pressed = false;
 
-    app.c = 0;
     app.player = new app.playerObj(100, 100);
-    //app.player.setup();
+    app.player.setup();
 
     // Start the game loop
     app.gameLoop();
@@ -66,26 +65,7 @@ app.setup = function () {
 app.renderer.view.addEventListener("click", (event) => {
     let x = app.mouse_x;
     let y = app.mouse_y;
-    let context = app.renderer.context;
-    let rgba = context.getImageData(x, y, 1, 1).data;
-    // let rgba = extract.pixels(app.stage);
-    let count = 0;
-    rgba.forEach(r => {
-        if (r != 0) {
-            count += 1;
-            
-        }
-        
-    });
-    console.log(count);
-    // And here's components of a pixel on (x, y):
-    let pixelR = rgba[4 * (y * app.SCREEN_WIDTH + x)];
-    let pixelG = rgba[4 * (y * app.SCREEN_WIDTH + x) + 1];
-    let pixelB = rgba[4 * (y * app.SCREEN_WIDTH + x) + 2];
-    let pixelA = rgba[4 * (y * app.SCREEN_WIDTH + x) + 3];
-    console.log(x, y);
-    console.log(pixelR, pixelG, pixelB, pixelA);
-    console.log(rgba);
+    console.log(app.whatdotcolor(x, y, 50, 50)); // sample width
 });
 
 
