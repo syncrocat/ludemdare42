@@ -51,13 +51,13 @@ app.setup = function () {
     // Set up player
     app.test = new PIXI.Sprite(PIXI.loader.resources["assets/player.png"].texture);
     app.test.x = 340;
-    app.stage.addChild(app.test);
+    //app.stage.addChild(app.test);
     app.mouse_state = 'off';
     app.mouse_pressed = false;
 
     app.c = 0;
     app.player = new app.playerObj(100, 100);
-    app.player.setup();
+    //app.player.setup();
 
     // Start the game loop
     app.gameLoop();
