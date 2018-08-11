@@ -18,18 +18,11 @@ app.stage.on('mousedown', app.mouseDown)
 app.stage.on('mouseup', app.mouseUp)
 app.stage.addChild(app.myGraph);
 
-/** Probably not needed code bc we're using whatdogcolor
-app.pixel_map = []
-for (i=0; i<app.SCREEN_WIDTH;i++) {
-    app.pixel_map.push([])
-    for (j = 0; j < app.SCREEN_HEIGHT; j++) {
-        app.pixel_map[i].push(0)
-    }
-}*/
+
 
 // Load sprites
 PIXI.loader
-    .add("assets/player.png")
+    .add("assets/temp.png")
     .load(function () {
         app.setup();
     });
@@ -42,15 +35,24 @@ app.setup = function () {
     app.mouse = new app.mouseObject(app.renderer);
 
     // Set up player
-    app.player = new app.playerObject(100, 100);
+    app.player = new app.playerObject(100, 100, "assets/temp.png");
     app.player.setup();
+
+    // Temp garbage
+    app.pixiCircle = new PIXI.Graphics();
+    app.pixiCircle.lineStyle(2, 0xFF00FF);  //(thickness, color)
+    app.pixiCircle.drawCircle(0, 0, 30);   
+    app.pixiCircle.endFill(); 
+    app.stage.addChild(app.pixiCircle);
 
     // Start the game loop
     app.gameLoop();
 }
 
 app.renderer.view.addEventListener("click", (event) => {
-    let x = app.mouse_x;
+    let x
+    app.pixiCircle.y = app.player.y
+     = app.mouse_x;
     let y = app.mouse_y;
     console.log(app.whatdotcolor(x, y, 50, 50)); // sample width
 });
@@ -61,7 +63,13 @@ app.gameLoop = function () {
     app.renderer.render(app.stage);
 }
 
+
 app.play = function () {
+
+    app.pixiCircle.x = app.player.x
+    app.pixiCircle.y = app.player.y
+
+    app.check_player_collisions();
     app.mouse.run();
     // Player reacts to inputs for this frame from keybinds.js
     app.player.physics();

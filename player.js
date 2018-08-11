@@ -1,15 +1,15 @@
-app.playerObject = function(x, y) {
+app.playerObject = function(x=0, y=0, spr='assets/player.png') {
     app.onTheMove.call (
         this,
         x,
         y,
-        "assets/player.png",
+        spr,
     );
 
     // "Constants"
     this.uravity = 1;
-    this.groundFriction = 1;
-    this.airFriction = 1;
+    this.groundFriction = 0;
+    this.airFriction = 0;
     this.maxXSpd = 12;
     this.maxYSpd = 20;
     this.acceleration = 1;
@@ -19,8 +19,7 @@ app.playerObject = function(x, y) {
     this.upPressed = false;
 
     this.physics = function() {
-        // Temp
-        this.hitbox.onGround = true;
+       
 
         // Right Movement
         if ((app.movement.right) && !(app.movement.left)) {
@@ -45,7 +44,7 @@ app.playerObject = function(x, y) {
             }
         }
 
-        // Jumping
+        // Jumpings
         if (app.movement.up) {
             if (!(this.upPressed)) {
                 //Ground jump
@@ -59,7 +58,10 @@ app.playerObject = function(x, y) {
         }
 
         // Gravity
-        this.hitbox.vy += this.uravity;
+        if (!this.hitbox.onGround) {
+            //console.log('grav')
+            this.hitbox.vy += this.uravity;
+        }
         if (this.hitbox.vy > this.maxYSpd) this.hitbox.vy = this.maxYSpd;
     }
 }
