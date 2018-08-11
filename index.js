@@ -1,10 +1,9 @@
 // Create the renderer
-app.SCREEN_WIDTH = 640;
-app.SCREEN_HEIGHT = 480;
+app.SCREEN_WIDTH = 960;
+app.SCREEN_HEIGHT = 720;
 
 app.renderer = PIXI.autoDetectRenderer(app.SCREEN_WIDTH, app.SCREEN_HEIGHT);
-app.renderer.backgroundColor = 0x012345;
-
+app.renderer.backgroundColor = 0xff0000;
 
 // Add the canvas to the HTML document
 document.body.appendChild(app.renderer.view);
@@ -13,9 +12,9 @@ document.body.appendChild(app.renderer.view);
 app.stage = new PIXI.Container();
 
 PIXI.loader
-    //.add("assets/circle.png")
+    //.add("assets/placeholder_image.png")
     .load(function () {
-        app.loadMap(app.setup);
+        app.setup();
     });
 
 app.setup = function () {
@@ -35,3 +34,5 @@ app.gameLoop = function () {
 app.play = function () {
     
 }
+
+app.setup();
