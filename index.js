@@ -12,7 +12,7 @@ document.body.appendChild(app.renderer.view);
 app.stage = new PIXI.Container();
 
 PIXI.loader
-    //.add("assets/placeholder_image.png")
+    .add("assets/player.png")
     .load(function () {
         app.setup();
     });
@@ -20,6 +20,9 @@ PIXI.loader
 app.setup = function () {
     // Set up keyboard input
     app.bindKeys();
+
+    app.player = new app.playerObj(100, 100);
+    app.player.setup();
 
     // Start the game loop
     app.gameLoop();
@@ -32,7 +35,8 @@ app.gameLoop = function () {
 }
 
 app.play = function () {
-    
+    // Player reacts to inputs for this frame from keybinds.js
+    app.player.physics();
+    app.player.move();
+    app.player.cameraAdjust(0,0);
 }
-
-app.setup();
