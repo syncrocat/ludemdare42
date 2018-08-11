@@ -1,4 +1,4 @@
-app.playerObj = function(x, y) {
+app.playerObject = function(x, y) {
     app.onTheMove.call (
         this,
         x,
