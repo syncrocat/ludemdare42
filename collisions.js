@@ -73,6 +73,13 @@ app.check_player_collisions = function () {
             a = false;
         // Otherwise, respond to collision, update movement vector and repeat loop
         } else {
+            if (app.sound === "on") {
+                let soundChoice = Math.floor(Math.random() * 5) + 1;
+                let sound = new Audio("assets/sounds/hit" + soundChoice + ".wav");
+                sound.volume = 0.2;
+                sound.play();
+            }
+            
             smallest_dist = 32 - smallest_dist;
             // Use nearby pixels to find normal
             collision_pixel = app.pixel_map[smallest_dist_x][smallest_dist_y];

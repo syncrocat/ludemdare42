@@ -105,6 +105,11 @@ app.playerObject = function(x=0, y=0, spr='assets/player/1.png') {
 
         // Death
         if (this.hitbox.x < 0 || this.hitbox.x > app.SCREEN_WIDTH || this.hitbox.y < 0 || this.hitbox.y > app.SCREEN_HEIGHT) {
+            if (app.sound === "on") {
+                let deathSound = new Audio("assets/sounds/death.wav");
+                deathSound.play();
+            }
+            
             app.dieplz = true;
             app.death.hitbox.vy = -2;
             app.death.hitbox.x = this.hitbox.x;

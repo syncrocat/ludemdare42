@@ -53,19 +53,19 @@ app.loadMap = function(levelNumber, callback) {
         // Draw that map back together
         // app.lineGraphics.clear();
         app.lineGraphics.position.set(0, 0);
-        app.lineGraphics.lineStyle(1, 0xffffff);
+        app.lineGraphics.lineStyle(5, app.level_color_map[app.levelNum - 1]);
         for (let i=0; i<app.line_map.length;i++) {
             for (let j=0; j<app.line_map[i].length-1;j++) {
                 app.lineGraphics.moveTo(app.line_map[i][j].x, app.line_map[i][j].y).lineTo(app.line_map[i][j+1].x,app.line_map[i][j+1].y);
                 app.dev_graphics.moveTo(app.line_map[i][j].x, app.line_map[i][j].y).lineTo(app.line_map[i][j+1].x,app.line_map[i][j+1].y);
             }
         }
-        for (let i=0; i<app.drawn_line_map.length;i++) {
+        /*for (let i=0; i<app.drawn_line_map.length;i++) {
             for (let j=0; j<app.drawn_line_map[i].length-1;j++) {
                 app.lineGraphics.moveTo(app.drawn_line_map[i][j].x, app.drawn_line_map[i][j].y).lineTo(app.drawn_line_map[i][j+1].x,app.drawn_line_map[i][j+1].y);
                 app.dev_graphics.moveTo(app.drawn_line_map[i][j].x, app.drawn_line_map[i][j].y).lineTo(app.drawn_line_map[i][j+1].x,app.drawn_line_map[i][j+1].y);
             }
-        }
+        }*/
 
         callback();
     });
