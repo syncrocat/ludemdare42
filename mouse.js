@@ -12,6 +12,7 @@ app.level_color_map = [
     0xffffff, // white
     0x000000, //black
 ]
+app.drawingLines = true;
 
 // Mouse click and hold handlers
 app.mouseDown = function () {
@@ -108,8 +109,8 @@ app.draw_line = function(x, y, x2, y2, drawn) {
     }
 }
 
-app.draw_line(0,0,0,app.SCREEN_HEIGHT-1, 0);
-app.draw_line(0,app.SCREEN_HEIGHT-1, app.SCREEN_WIDTH-1, app.SCREEN_HEIGHT-1, 0)
+//app.draw_line(0,0,0,app.SCREEN_HEIGHT-1, 0);
+//app.draw_line(0,app.SCREEN_HEIGHT-1, app.SCREEN_WIDTH-1, app.SCREEN_HEIGHT-1, 0)
 
 app.mouseObject = function (renderer) {
     this.renderer = renderer;
@@ -122,27 +123,68 @@ app.mouseObject = function (renderer) {
         app.mouse_x = Math.round(mouseposition.x)
         app.mouse_y = Math.round(mouseposition.y)
         
+
+        if (app.drawLinePlz == true) {
+            app.drawLinePlz = false;
+            console.log("Drawing straight line");
+            let cuck_me_x = Math.min (app.mouse_x, 959);
+            var cuck_me_y = Math.min (app.mouse_y, 719);
+            cuck_me_x = Math.max (0, app.mouse_x);
+            cuck_me_y = Math.max (0, app.mouse_y);
+            app.lineDrawStartX = Math.min (app.lineDrawStartX, 959);
+            app.lineDrawStartX = Math.max (app.lineDrawStartX, 0);
+            app.lineDrawStartY = Math.max(0, app.lineDrawStartY);
+            app.lineDrawStartY = Math.min(719, app.lineDrawStartY);
+
+            app.draw_line(
+                app.lineDrawStartX,
+                app.lineDrawStartY,
+                cuck_me_x,
+                cuck_me_y,
+                app.drawingLines ? 1 : 0);
+            app.lineGraphics.lineStyle(6, 	0xff0065);
+            //app.lineGraphics.moveTo(app.last_mouse_x + normal[0] * 10,app.last_mouse_y).lineTo(app.mouse_x + normal[0] * 10, app.mouse_y);
+            app.lineGraphics.lineStyle(6, 0xFF00FF);
+            app.lineGraphics.moveTo(app.lineDrawStartX,app.lineDrawStartY).lineTo(app.mouse_x, app.mouse_y);
+            app.lineGraphics.lineStyle(6, 0xff00a9);
+            app.dev_graphics.moveTo(app.lineDrawStartX,app.lineDrawStartY).lineTo(app.mouse_x, app.mouse_y);
+            //app.lineGraphics.moveTo(app.last_mouse_x,app.last_mouse_y + normal[1] * 10).lineTo(app.mouse_x, app.mouse_y + normal[1]*10);
+            
+        }
+
         // Draw line when mouse pressed
         if (app.mouse_pressed) {
+
+            if (!(app.mouse_x < app.SCREEN_WIDTH && app.mouse_y < app.SCREEN_HEIGHT
+                && app.mouse_x >= 0 && app.mouse_y >= 0)) {
+                    app.mouse_pressed = false;
+                }
             
-            if (app.mouse_x != app.last_mouse_x || app.mouse_y != app.last_mouse_y) {
-                let slope_y = (app.mouse_y - app.last_mouse_y);
-                let slope_x = (app.mouse_x - app.last_mouse_x);
-                let magnitude = Math.sqrt(slope_x**2 + slope_y**2)
-                let normal = [slope_x / magnitude, - slope_y/ magnitude];
+            if ((app.mouse_x != app.last_mouse_x || app.mouse_y != app.last_mouse_y)
+             && app.mouse_x < app.SCREEN_WIDTH && app.mouse_y < app.SCREEN_HEIGHT
+             && app.mouse_x >= 0 && app.mouse_y >= 0
+             && Math.sqrt((app.mouse_x - app.player.hitbox.x)**2 + (app.mouse_y - app.player.hitbox.y)**2) > 30) {
+                //let slope_y = (app.mouse_y - app.last_mouse_y);
+                //let slope_x = (app.mouse_x - app.last_mouse_x);
+                //let magnitude = Math.sqrt(slope_x**2 + slope_y**2)
+                //let normal = [slope_x / magnitude, - slope_y/ magnitude];
+
+                //app.line_map.push(normal);
+                //console.log(normal);
                 
                 app.draw_line(
                     app.last_mouse_x, 
                     app.last_mouse_y,
                     app.mouse_x,
                     app.mouse_y,
-                    1);
+                    app.drawingLines ? 1 : 0);
                         
                 console.log(app.levelNum)
                 app.lineGraphics.lineStyle(6, app.level_color_map[app.levelNum - 1]);
                 app.lineGraphics.moveTo(app.last_mouse_x,app.last_mouse_y).lineTo(app.mouse_x, app.mouse_y);
+                app.dev_graphics.moveTo(app.last_mouse_x,app.last_mouse_y).lineTo(app.mouse_x, app.mouse_y);
             }
-            
+                
         }
     }
 }

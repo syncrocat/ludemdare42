@@ -81,30 +81,35 @@ app.check_player_collisions = function () {
             let line_map = collision_pixel.drawn === 0 ? app.line_map : app.drawn_line_map;
 
             // Check for corner-case
-            if (line_map[collision_pixel.line][collision_pixel.pos+1] == undefined || line_map[collision_pixel.line][collision_pixel.pos-1] == undefined) {
-                // Reflect along plane from whenst you came
-                normal = movement_vector;
-            } else {
-                // Get line endpoint 1 (3 pixels back of collision)
-                extremity_pixel_1 = collision_pixel;
-                counter = 0;
-                while (line_map[extremity_pixel_1.line][extremity_pixel_1.pos+1] != undefined && counter < 3) {
-                    extremity_pixel_1 = line_map[extremity_pixel_1.line][extremity_pixel_1.pos+1];
-                    counter += 1;
+            try {
+                if (line_map[collision_pixel.line][collision_pixel.pos+1] == undefined || line_map[collision_pixel.line][collision_pixel.pos-1] == undefined) {
+                    // Reflect along plane from whenst you came
+                    normal = movement_vector;
+                } else {
+                    // Get line endpoint 1 (3 pixels back of collision)
+                    extremity_pixel_1 = collision_pixel;
+                    counter = 0;
+                    while (line_map[extremity_pixel_1.line][extremity_pixel_1.pos+1] != undefined && counter < 3) {
+                        extremity_pixel_1 = line_map[extremity_pixel_1.line][extremity_pixel_1.pos+1];
+                        counter += 1;
+                    }
+                    // Get line endpoint 2 (3 pixels forward of collision)
+                    extremity_pixel_2 = collision_pixel;
+                    counter = 0;
+                    while (line_map[extremity_pixel_2.line][extremity_pixel_2.pos-1] !== undefined && counter < 3) {
+                        extremity_pixel_2 = line_map[extremity_pixel_2.line][extremity_pixel_2.pos-1];
+                        counter += 1;
+                    }
+                    // Get normal of line
+                    line_y = (extremity_pixel_2.y - extremity_pixel_1.y)
+                    line_x = (extremity_pixel_2.x - extremity_pixel_1.x)
+                    line_magnitude = Math.sqrt(line_x**2 + line_y**2)
+                    normal = [line_y / line_magnitude, -line_x/ line_magnitude]
                 }
-                // Get line endpoint 2 (3 pixels forward of collision)
-                extremity_pixel_2 = collision_pixel;
-                counter = 0;
-                while (line_map[extremity_pixel_2.line][extremity_pixel_2.pos-1] !== undefined && counter < 3) {
-                    extremity_pixel_2 = line_map[extremity_pixel_2.line][extremity_pixel_2.pos-1];
-                    counter += 1;
-                }
-                // Get normal of line
-                line_y = (extremity_pixel_2.y - extremity_pixel_1.y)
-                line_x = (extremity_pixel_2.x - extremity_pixel_1.x)
-                line_magnitude = Math.sqrt(line_x**2 + line_y**2)
-                normal = [line_y / line_magnitude, -line_x/ line_magnitude]
+            } catch {
+                var fucky = "you";
             }
+            
 
             //console.log("Normal:", normal)
             //console.log("Movement:", movement_vector)

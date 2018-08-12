@@ -14,6 +14,8 @@ app.stage.hitArea = new PIXI.Rectangle(0, 0, app.SCREEN_WIDTH, app.SCREEN_HEIGHT
 app.stage.on('mousedown', app.mouseDown);
 app.stage.on('mouseup', app.mouseUp);
 app.stage.addChild(app.lineGraphics);
+app.stage.addChild(app.dev_graphics);
+app.dev_graphics.z = 100;
 app.lineGraphics.z = 100;
 
 // Load sprites
@@ -122,13 +124,52 @@ app.play = function () {
             app.exit_y = app.mouse_y;
         }
 
+        if (app.movement.v) {
+            
+        }
+
+        if (app.movement.one) {
+            
+        }
+
+        if (app.movement.two) {
+            
+        }
+
+        if (app.movement.three) {
+            
+        }
+
+        if (app.movement.four) {
+            
+        }
+
+        if (app.movement.five) {
+            
+        }
+
+        if (app.movement.six) {
+            
+        }
+
+        if (app.movement.seven) {
+            
+        }
+
+        if (app.movement.eight) {
+            
+        }
+
+        if (app.movement.nine) {
+            
+        }
+
+        if (app.movement.zero) {
+            
+        }
+
         if (app.movement.space) {
-            app.levelNum += 1;
-            app.ready = false;
-            app.loadMap(app.levelNum, () => {
-                console.log("loaded");
-                app.ready = true
-            });
+            
         }
     }
 }

@@ -5,6 +5,10 @@ app.lineGraphics = new PIXI.Graphics();
 app.lineGraphics.position.set(0, 0);
 app.lineGraphics.lineStyle(1, 0xffffff);
 
+app.dev_graphics = new PIXI.Graphics();
+app.dev_graphics.position.set(0,0);
+app.dev_graphics.lineStyle(1,0xffffff);
+
 app.loadJSON = function(file, callback) {
     var xobj = new XMLHttpRequest();
     xobj.overrideMimeType("application/json");
@@ -24,11 +28,16 @@ app.loadMap = function(levelNumber, callback) {
 
         app.line_map = gameMapJSON.lineMap;
 
-        for (let i = 0; i < gameMapJSON.pixelMap.length; i++) {
-            for (let j = 0; j < gameMapJSON.pixelMap[i].length; j++) {
-                if (app.pixel_map[i][j] === -1 || app.pixel_map[i][j].drawn === 0) { // If not a drawn line, replace the value
-                    app.pixel_map[i][j] = gameMapJSON.pixelMap[i][j];
+        for (let i = 0; i < app.SCREEN_WIDTH; i++) {
+            for (let j = 0; j < app.SCREEN_HEIGHT; j++) {
+                try {
+                    if ((app.pixel_map[i][j] === -1 || app.pixel_map[i][j].drawn === 0) && gameMapJSON.pixelMap[i][j].drawn === 0) { // If not a drawn line, replace the value
+                        app.pixel_map[i][j] = gameMapJSON.pixelMap[i][j];
+                    }
+                } catch {
+                    var xd = 'nice';
                 }
+                
             }
         }
 
@@ -39,17 +48,19 @@ app.loadMap = function(levelNumber, callback) {
         app.exit_x = gameMapJSON.exit.x;
         app.exit_y = gameMapJSON.exit.y;
         // Draw that map back together
-        app.lineGraphics.clear();
+        // app.lineGraphics.clear();
         app.lineGraphics.position.set(0, 0);
         app.lineGraphics.lineStyle(1, 0xffffff);
         for (let i=0; i<app.line_map.length;i++) {
             for (let j=0; j<app.line_map[i].length-1;j++) {
                 app.lineGraphics.moveTo(app.line_map[i][j].x, app.line_map[i][j].y).lineTo(app.line_map[i][j+1].x,app.line_map[i][j+1].y);
+                app.dev_graphics.moveTo(app.line_map[i][j].x, app.line_map[i][j].y).lineTo(app.line_map[i][j+1].x,app.line_map[i][j+1].y);
             }
         }
         for (let i=0; i<app.drawn_line_map.length;i++) {
             for (let j=0; j<app.drawn_line_map[i].length-1;j++) {
                 app.lineGraphics.moveTo(app.drawn_line_map[i][j].x, app.drawn_line_map[i][j].y).lineTo(app.drawn_line_map[i][j+1].x,app.drawn_line_map[i][j+1].y);
+                app.dev_graphics.moveTo(app.drawn_line_map[i][j].x, app.drawn_line_map[i][j].y).lineTo(app.drawn_line_map[i][j+1].x,app.drawn_line_map[i][j+1].y);
             }
         }
 
