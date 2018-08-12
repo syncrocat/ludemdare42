@@ -87,7 +87,7 @@ app.clear_undrawn_pixels = function() {
 }
 
 app.saveMap = function(callback) {
-    console.log("Saving");
+    //console.log("Saving");
     var textObj = {
         pixelMap: app.pixel_map,
         lineMap: app.line_map,
@@ -97,23 +97,28 @@ app.saveMap = function(callback) {
         }
     };
     var text = JSON.stringify(textObj);
-    console.log(text);
+    //console.log(text);
 }
 
 app.setupLevel = function(exit_x=app.exit_x, exit_y=app.exit_y) {
-    console.log("Seting up level");
-    app.ready = false;
 
-    app.lineGraphics.clear();
-    app.dev_graphics.clear();
-    app.player.hitbox.vx = 0;
-    app.player.hitbox.vy = 0;
-    app.spawnX = exit_x;
-    app.spawnY = exit_y;
-    app.player.hitbox.x = app.spawnX;
-    app.player.hitbox.y = app.spawnY;
-    app.clear_undrawn_pixels();
-    app.loadMap(app.levelNum, () => {
-        app.ready = true;
-    });
+    if (app.levelNum == 7) {
+        app.end_screen_setup();
+        app.state = 'end'   
+    } else {
+        app.ready = false;
+
+        app.lineGraphics.clear();
+        app.dev_graphics.clear();
+        app.player.hitbox.vx = 0;
+        app.player.hitbox.vy = 0;
+        app.spawnX = exit_x;
+        app.spawnY = exit_y;
+        app.player.hitbox.x = app.spawnX;
+        app.player.hitbox.y = app.spawnY;
+        app.clear_undrawn_pixels();
+        app.loadMap(app.levelNum, () => {
+            app.ready = true;
+        });
+    }
 }

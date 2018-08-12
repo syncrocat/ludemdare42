@@ -29,7 +29,8 @@ app.spawnY = 100;
 // Load sprites
 // Load hamster sprites
 for (let i = 1; i<=6;i++) PIXI.loader.add("assets/player/" + i + ".png")
-for (let i = 1; i<=8;i++) PIXI.loader.add("assets/player/ball_" + i + '.png')
+for (let i = 1; i<=4;i++) PIXI.loader.add("assets/player/spoke" + i + '.png')
+for (let i = 1; i<=8;i++) PIXI.loader.add("assets/" + i + '.png')
 PIXI.loader.add("assets/player/wheel_bg.png")
 PIXI.loader.add("assets/player/wheel_fg.png")
 PIXI.loader
@@ -49,6 +50,7 @@ PIXI.loader
     .add('assets/reset_unclicked.png')
     .add('assets/death_clicked.png')
     .add('assets/death_unclicked.png')
+    .add('assets/end_bg.png')
     .load(function () {
         app.setup();
     });
@@ -126,6 +128,8 @@ app.gameLoop = function () {
         app.menu();
     } else if (app.state == 'game') {
         app.play();
+    } else if (app.state == 'end') {
+        app.end_screen();
     }
     app.renderer.render(app.stage);
 }
@@ -167,7 +171,7 @@ app.menu_teardown = function () {
 app.menu = function () {
     app.stage.children.sort(depthCompare);
     app.mouse.get_mouse_position();
-    console.log(app.mouse_y)
+    //console.log(app.mouse_y)
     // Button
     if (app.mouse_x > app.startButton.x 
         && app.mouse_y > app.startButton.y 
@@ -192,8 +196,8 @@ app.menu = function () {
         && app.mouse_x < app.soundButton.x + app.soundButton.width 
         && app.mouse_y < app.soundButton.y + app.soundButton.height) {
         
-            console.log(app.mouse_pressed)
-            console.log(app.sfx_clicked_flag)
+            //console.log(app.mouse_pressed)
+            //console.log(app.sfx_clicked_flag)
         app.soundButton.texture = PIXI.loader.resources['assets/sfx_'  + app.sound +  '_clicked.png'].texture;
         if (app.mouse_pressed) {
             if (!app.sfx_clicked_flag) {
@@ -206,10 +210,36 @@ app.menu = function () {
         
     } else {
         app.sfx_clicked_flag = false;
-        console.log(app.sound)
-        console.log('assets/sfx_' + app.sound + '.png')
+        //console.log(app.sound)
+       // console.log('assets/sfx_' + app.sound + '.png')
         app.soundButton.texture = PIXI.loader.resources['assets/sfx_' + app.sound + '.png'].texture;
     }
+}
+
+app.end_screen_setup = function () {
+    for (var i = app.stage.children.length - 1; i >= 0; i--) {	
+        app.stage.removeChild(app.stage.children[i]);
+    };
+    // Add a bg
+    app.bgbg = new PIXI.Sprite(PIXI.loader.resources['assets/end_bg.png'].texture);
+    app.bgbg.z = -10;
+    app.bgbg.x = 0;
+    app.bgbg.y = 0;
+    app.stage.addChild(app.bgbg);
+    // Add a bg
+
+    app.danceman = new PIXI.Sprite(PIXI.loader.resources['assets/1.png'].texture);
+    app.danceman.z = 10;
+    app.danceman.x = 600;
+    app.danceman.y = 450;
+    app.stage.addChild(app.danceman);
+    
+}
+app.frameyframey = 1;
+app.end_screen = function () {
+    app.frameyframey += 0.25;
+    if (app.frameyframey >= 9) app.frameyframey = 1;
+    app.danceman.texture = PIXI.loader.resources['assets/' + Math.floor(app.frameyframey) + '.png'].texture;
 }
 
 app.game_buttons = function () {
@@ -331,19 +361,7 @@ app.play = function () {
         app.exit.physics();
         app.exit.cameraAdjust(Math.round(app.exit.hitbox.width / 2), Math.round(app.exit.hitbox.height / 2));
 
-        if (app.movement.x) {
-            app.saveMap(() => console.log("Map has been saved"));
-        }
-
-        if (app.movement.z) {
-            app.player.hitbox.x = app.mouse_x;
-            app.player.hitbox.y = app.mouse_y;
-        }
-
-        if (app.movement.c) {
-            app.exit_x = app.mouse_x;
-            app.exit_y = app.mouse_y;
-        }
+        
 
         if (app.movement.v) {
             

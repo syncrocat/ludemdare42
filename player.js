@@ -13,7 +13,7 @@ app.playerObject = function(x=0, y=0, spr='assets/player/1.png') {
     this.sprite.z = 0;
     this.wheel_back = new PIXI.Sprite(PIXI.loader.resources['assets/player/wheel_bg.png'].texture);
     this.wheel_front = new PIXI.Sprite(PIXI.loader.resources['assets/player/wheel_bg.png'].texture)
-    this.wheel_border = new PIXI.Sprite(PIXI.loader.resources['assets/player/ball_1.png'].texture)
+    this.wheel_border = new PIXI.Sprite(PIXI.loader.resources['assets/player/spoke1.png'].texture)
     this.wheel_back.z = -10;
     this.wheel_front.z = -10;
     this.wheel_border.z = 20;
@@ -39,9 +39,9 @@ app.playerObject = function(x=0, y=0, spr='assets/player/1.png') {
             this.sprite_frame += 0.5;
             this.wheel_frame += 0.25
             if (this.sprite_frame >= 7) this.sprite_frame = 1;
-            if (this.wheel_frame >= 9) this.wheel_frame = 1;
+            if (this.wheel_frame >= 5) this.wheel_frame = 1;
             this.sprite.texture = PIXI.loader.resources['assets/player/' + Math.floor(this.sprite_frame) + '.png'].texture;
-            this.wheel_border.texture = PIXI.loader.resources['assets/player/ball_' + Math.floor(this.wheel_frame) + '.png'].texture;
+            this.wheel_border.texture = PIXI.loader.resources['assets/player/spoke' + Math.floor(this.wheel_frame) + '.png'].texture;
         }
         
         
