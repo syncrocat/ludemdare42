@@ -29,7 +29,7 @@ app.spawnY = 100;
 // Load sprites
 // Load hamster sprites
 for (let i = 1; i<=6;i++) PIXI.loader.add("assets/player/" + i + ".png")
-for (let i = 1; i<=4;i++) PIXI.loader.add("assets/player/spoke" + i + '.png')
+//for (let i = 1; i<=4;i++) PIXI.loader.add("assets/player/spoke" + i + '.png')
 for (let i = 1; i<=8;i++) PIXI.loader.add("assets/" + i + '.png')
 PIXI.loader.add("assets/player/wheel_bg.png")
 PIXI.loader.add("assets/player/wheel_fg.png")
@@ -388,7 +388,6 @@ app.play = function () {
         }
 
         if (app.movement.six) {
-            
         }
 
         if (app.movement.seven) {
