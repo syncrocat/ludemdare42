@@ -41,6 +41,9 @@ function depthCompare(a, b) {
 
 app.setup = function () {
     // Set up keyboard input
+    app.exit_x = 100;
+    app.exit_y = 100; 
+    
     app.bindKeys();
 
     // Add a bg
