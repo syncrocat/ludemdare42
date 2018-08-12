@@ -47,6 +47,8 @@ PIXI.loader
     .add('assets/sfx_off_clicked.png')
     .add('assets/reset_clicked.png')
     .add('assets/reset_unclicked.png')
+    .add('assets/death_clicked.png')
+    .add('assets/death_unclicked.png')
     .load(function () {
         app.setup();
     });
@@ -106,6 +108,11 @@ app.setup = function () {
     app.resetButton.x = 70;
     app.resetButton.y = 10;
     app.resetButton.z = 10;
+
+    app.deathButton = new PIXI.Sprite(PIXI.loader.resources['assets/death_unclicked.png'].texture);
+    app.deathButton.x = 130;
+    app.deathButton.y = 10;
+    app.deathButton.z = 10;
     
 
     app.levelNum = 0;
@@ -139,6 +146,7 @@ app.setup_level = function () {
     // Set up reset button
     
     app.stage.addChild(app.resetButton)
+    app.stage.addChild(app.deathButton)
 
     // Temp garbage
     app.pixiCircle = new PIXI.Graphics();
@@ -243,6 +251,7 @@ app.game_buttons = function () {
                 app.drawn_graphics.clear();
                 
                 app.setupLevel(100,100);
+                app.reset_clicked_flag = true;
             }
         } else {
             app.reset_clicked_flag = false;
@@ -250,6 +259,34 @@ app.game_buttons = function () {
     } else {
         app.reset_clicked_flag = false;
         app.resetButton.texture = PIXI.loader.resources['assets/reset_unclicked.png'].texture;
+    }
+
+    // Reset Button
+    if (app.mouse_x > app.deathButton.x 
+        && app.mouse_y > app.deathButton.y 
+        && app.mouse_x < app.deathButton.x + app.deathButton.width 
+        && app.mouse_y < app.deathButton.y + app.deathButton.height) {
+        app.deathButton.texture = PIXI.loader.resources['assets/death_clicked.png'].texture;
+        if (app.mouse_pressed) {
+            if (!app.death_clicked_flag) {
+                //die
+                app.dieplz = true;
+                app.death.hitbox.vy = -2;
+                app.death.hitbox.x = app.player.hitbox.x;
+                app.death.hitbox.y = app.player.hitbox.y;
+                
+                app.player.hitbox.x = app.spawnX;
+                app.player.hitbox.y = app.spawnY;
+                app.player.hitbox.vx = 0;
+                app.player.hitbox.vy = 0;
+                app.death_clicked_flag = true;
+            }
+        } else {
+            app.death_clicked_flag = false;
+        }
+    } else {
+        app.death_clicked_flag = false;
+        app.deathButton.texture = PIXI.loader.resources['assets/death_unclicked.png'].texture;
     }
 }
 
