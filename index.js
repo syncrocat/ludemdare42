@@ -15,8 +15,10 @@ app.stage.on('mousedown', app.mouseDown);
 app.stage.on('mouseup', app.mouseUp);
 app.stage.addChild(app.lineGraphics);
 app.stage.addChild(app.dev_graphics);
+app.stage.addChild(app.drawn_graphics);
 app.dev_graphics.z = 100;
 app.lineGraphics.z = 100;
+app.drawn_graphics.z = 100;
 
 // Load sprites
 // Load hamster sprites
@@ -26,7 +28,7 @@ PIXI.loader.add("assets/player/wheel_bg.png")
 PIXI.loader.add("assets/player/wheel_fg.png")
 PIXI.loader
     .add("assets/temp.png")
-    .add("assets/exit.png")
+    .add("assets/door.png")
     .add("assets/reset.png")
     .add('assets/bg_1_small.png')
     .load(function () {
@@ -65,11 +67,11 @@ app.setup = function () {
     // Temp garbage
     app.pixiCircle = new PIXI.Graphics();
     app.pixiCircle.lineStyle(2, 0x000000);  //(thickness, color)
-    app.pixiCircle.drawCircle(0, 0, 32);   
-    app.pixiCircle.endFill(); 
+    app.pixiCircle.drawCircle(0, 0, 32);
+    app.pixiCircle.endFill();
     app.stage.addChild(app.pixiCircle);
 
-    app.exit = new app.exitObject(0, 0, "assets/exit.png");
+    app.exit = new app.exitObject(0, 0, "assets/door.png");
     app.exit.setup();
 
     app.levelNum = 0;
@@ -90,8 +92,10 @@ app.gameLoop = function () {
     app.renderer.render(app.stage);
 }
 
+app.ready = true;
+
 app.play = function () {
-    if (app.ready || true) {
+    if (app.ready) {
         // Sort sprites by depth
         app.stage.children.sort(depthCompare);
 
@@ -108,7 +112,7 @@ app.play = function () {
         app.player.cameraAdjust(0,0);
 
         app.exit.physics();
-        app.exit.cameraAdjust(0, 0);
+        app.exit.cameraAdjust(Math.round(app.exit.hitbox.width / 2), Math.round(app.exit.hitbox.height / 2));
 
         if (app.movement.x) {
             app.saveMap(() => console.log("Map has been saved"));

@@ -180,8 +180,8 @@ app.mouseObject = function (renderer) {
                     app.drawingLines ? 1 : 0);
                         
                 console.log(app.levelNum)
-                app.lineGraphics.lineStyle(6, app.level_color_map[app.levelNum - 1]);
-                app.lineGraphics.moveTo(app.last_mouse_x,app.last_mouse_y).lineTo(app.mouse_x, app.mouse_y);
+                app.drawn_graphics.lineStyle(6, app.level_color_map[app.levelNum - 1]);
+                app.drawn_graphics.moveTo(app.last_mouse_x,app.last_mouse_y).lineTo(app.mouse_x, app.mouse_y);
                 app.dev_graphics.moveTo(app.last_mouse_x,app.last_mouse_y).lineTo(app.mouse_x, app.mouse_y);
             }
                 

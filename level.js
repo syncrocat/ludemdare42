@@ -9,6 +9,9 @@ app.dev_graphics = new PIXI.Graphics();
 app.dev_graphics.position.set(0,0);
 app.dev_graphics.lineStyle(1,0xffffff);
 
+app.drawn_graphics = new PIXI.Graphics();
+app.drawn_graphics.position.set(0,0);
+
 app.loadJSON = function(file, callback) {
     var xobj = new XMLHttpRequest();
     xobj.overrideMimeType("application/json");
@@ -68,6 +71,21 @@ app.loadMap = function(levelNumber, callback) {
     });
 }
 
+app.clear_undrawn_pixels = function() {
+    for (let i = 0; i < app.SCREEN_WIDTH; i++) {
+        for (let j = 0; j < app.SCREEN_HEIGHT; j++) {
+            try {
+                if (app.pixel_map[i][j].drawn === 0) { // If not a drawn line, replace the value
+                    app.pixel_map[i][j] = -1;
+                }
+            } catch {
+                var xd = 'nice';
+            }
+            
+        }
+    }
+}
+
 app.saveMap = function(callback) {
     console.log("Saving");
     var textObj = {
@@ -80,4 +98,18 @@ app.saveMap = function(callback) {
     };
     var text = JSON.stringify(textObj);
     console.log(text);
+}
+
+app.setupLevel = function() {
+    console.log("Seting up level");
+    app.ready = false;
+
+    app.lineGraphics.clear();
+    app.dev_graphics.clear();
+    app.player.hitbox.vx = 0;
+    app.player.hitbox.vy = 0;
+    app.clear_undrawn_pixels();
+    app.loadMap(app.levelNum, () => {
+        app.ready = true;
+    });
 }
