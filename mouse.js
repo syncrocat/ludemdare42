@@ -115,13 +115,17 @@ app.draw_line = function(x, y, x2, y2, drawn) {
 app.mouseObject = function (renderer) {
     this.renderer = renderer;
 
-    this.run = function () {
+    this.get_mouse_position = function() {
         // Get mouse data
         var mouseposition = this.renderer.plugins.interaction.mouse.global;
         app.last_mouse_x = app.mouse_x;
         app.last_mouse_y = app.mouse_y;
         app.mouse_x = Math.round(mouseposition.x)
         app.mouse_y = Math.round(mouseposition.y)
+    }
+
+    this.run = function () {
+        
         
 
         if (app.drawLinePlz == true) {

@@ -6,9 +6,13 @@ app.exitObject = function(x=0, y=0, spr='assets/exit.png') {
         spr,
     );
 
+    this.sprite.z = 100;
+
     this.physics = function() {
         this.hitbox.x = app.exit_x;
         this.hitbox.y = app.exit_y;
+
+        
 
         //console.log(this.hitbox.width, this.hitbox.height);
         // Check for collisions with player
