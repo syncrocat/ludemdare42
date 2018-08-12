@@ -70,25 +70,27 @@ app.check_player_collisions = function () {
             smallest_dist = 30 - smallest_dist;
             // Use nearby pixels to find normal
             collision_pixel = app.pixel_map[smallest_dist_x][smallest_dist_y];
+            
+            // Pick the right line map
+            let line_map = collision_pixel.drawn === 0 ? app.line_map : app.drawn_line_map;
 
             // Check for corner-case
-            console.log(collision_pixel)
-            if (app.line_map[collision_pixel.line][collision_pixel.pos+1] == undefined || app.line_map[collision_pixel.line][collision_pixel.pos-1] == undefined) {
+            if (line_map[collision_pixel.line][collision_pixel.pos+1] == undefined || line_map[collision_pixel.line][collision_pixel.pos-1] == undefined) {
                 // Reflect along plane from whenst you came
                 normal = movement_vector;
             } else {
                 // Get line endpoint 1 (3 pixels back of collision)
                 extremity_pixel_1 = collision_pixel;
                 counter = 0;
-                while (app.line_map[extremity_pixel_1.line][extremity_pixel_1.pos+1] != undefined && counter < 3) {
-                    extremity_pixel_1 = app.line_map[extremity_pixel_1.line][extremity_pixel_1.pos+1];
+                while (line_map[extremity_pixel_1.line][extremity_pixel_1.pos+1] != undefined && counter < 3) {
+                    extremity_pixel_1 = line_map[extremity_pixel_1.line][extremity_pixel_1.pos+1];
                     counter += 1;
                 }
                 // Get line endpoint 2 (3 pixels forward of collision)
                 extremity_pixel_2 = collision_pixel;
                 counter = 0;
-                while (app.line_map[extremity_pixel_2.line][extremity_pixel_2.pos-1] !== undefined && counter < 3) {
-                    extremity_pixel_2 = app.line_map[extremity_pixel_2.line][extremity_pixel_2.pos-1];
+                while (line_map[extremity_pixel_2.line][extremity_pixel_2.pos-1] !== undefined && counter < 3) {
+                    extremity_pixel_2 = line_map[extremity_pixel_2.line][extremity_pixel_2.pos-1];
                     counter += 1;
                 }
                 // Get normal of line
