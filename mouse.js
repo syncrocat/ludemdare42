@@ -36,12 +36,17 @@ app.pixel_map = []
 app.line_map = []
 app.drawn_line_map = []
 
-for (i=0; i<app.SCREEN_WIDTH;i++) {
-    app.pixel_map.push([])
-    for (j = 0; j < app.SCREEN_HEIGHT; j++) {
-        app.pixel_map[i].push(-1);
+app.reset_pixel_map = function () {
+    app.pixel_map = []
+    for (i=0; i<app.SCREEN_WIDTH;i++) {
+        app.pixel_map.push([])
+        for (j = 0; j < app.SCREEN_HEIGHT; j++) {
+            app.pixel_map[i].push(-1);
+        }
     }
 }
+app.reset_pixel_map();
+
 
 app.putpixel = function(x,y, pos, drawn, visualize=false) {
     let line;

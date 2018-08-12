@@ -63,6 +63,8 @@ app.setup = function () {
     // Set up mouse
     app.menu_clicked_flag = false;
     app.sfx_clicked_flag = false;
+    app.reset_clicked_flag = false;
+    app.death_clicked_flag = false;
     app.mouse = new app.mouseObject(app.renderer);
     app.run_title_plz = true;
 
@@ -99,6 +101,11 @@ app.setup = function () {
     app.soundButton.y = 720 / 2 + 100 - app.soundButton.height/ 2;
     app.soundButton.z = 11;
     app.stage.addChild(app.soundButton)
+
+    app.resetButton = new PIXI.Sprite(PIXI.loader.resources['assets/reset_unclicked.png'].texture);
+    app.resetButton.x = 70;
+    app.resetButton.y = 10;
+    app.resetButton.z = 10;
     
 
     app.levelNum = 0;
@@ -124,6 +131,11 @@ app.setup_level = function () {
     app.player.setup();
 
     app.death = new app.deathObject(100, 100, "assets/death2.png");
+
+
+    // Set up reset button
+    
+    app.stage.addChild(app.resetButton)
 
     // Temp garbage
     app.pixiCircle = new PIXI.Graphics();
@@ -189,6 +201,56 @@ app.menu = function () {
     }
 }
 
+app.game_buttons = function () {
+    
+    // Sound
+    if (app.mouse_x > app.soundButton.x 
+        && app.mouse_y > app.soundButton.y 
+        && app.mouse_x < app.soundButton.x + app.soundButton.width 
+        && app.mouse_y < app.soundButton.y + app.soundButton.height) {
+        app.soundButton.texture = PIXI.loader.resources['assets/sfx_'  + app.sound +  '_clicked.png'].texture;
+        if (app.mouse_pressed) {
+            if (!app.sfx_clicked_flag) {
+                app.sound = app.sound == 'on' ? 'off' : 'on';
+                app.sfx_clicked_flag = true;
+            }
+        } else {
+            app.sfx_clicked_flag = false;
+        }
+    } else {
+        app.sfx_clicked_flag = false;
+        app.soundButton.texture = PIXI.loader.resources['assets/sfx_' + app.sound + '.png'].texture;
+    }
+
+    // Reset Button
+    if (app.mouse_x > app.resetButton.x 
+        && app.mouse_y > app.resetButton.y 
+        && app.mouse_x < app.resetButton.x + app.resetButton.width 
+        && app.mouse_y < app.resetButton.y + app.resetButton.height) {
+        app.resetButton.texture = PIXI.loader.resources['assets/reset_clicked.png'].texture;
+        if (app.mouse_pressed) {
+            if (!app.reset_clicked_flag) {
+                app.levelNum = 1;
+                
+                app.reset_pixel_map();
+                app.line_map = []
+                app.drawn_line_map = []
+                
+
+                app.drawn_graphics.clear();
+                
+                app.setupLevel(100,100);
+            }
+        } else {
+            app.reset_clicked_flag = false;
+        }
+    } else {
+        app.reset_clicked_flag = false;
+        app.resetButton.texture = PIXI.loader.resources['assets/reset_unclicked.png'].texture;
+    }
+}
+
+
 app.run_title = function () {
     if (app.run_title_plz) {
         app.title.vy += 1;
@@ -203,11 +265,13 @@ app.run_title = function () {
 app.ready = true;
 
 app.play = function () {
+    app.stage.children.sort(depthCompare);
     if (app.ready) {
 
         app.run_title();
         // Sort sprites by depth
         app.stage.children.sort(depthCompare);
+        app.game_buttons();
 
         app.player.animate();
         app.pixiCircle.x = app.player.hitbox.x

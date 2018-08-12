@@ -100,7 +100,7 @@ app.saveMap = function(callback) {
     console.log(text);
 }
 
-app.setupLevel = function() {
+app.setupLevel = function(exit_x=app.exit_x, exit_y=app.exit_y) {
     console.log("Seting up level");
     app.ready = false;
 
@@ -108,8 +108,8 @@ app.setupLevel = function() {
     app.dev_graphics.clear();
     app.player.hitbox.vx = 0;
     app.player.hitbox.vy = 0;
-    app.spawnX = app.exit_x;
-    app.spawnY = app.exit_y;
+    app.spawnX = exit_x;
+    app.spawnY = exit_y;
     app.player.hitbox.x = app.spawnX;
     app.player.hitbox.y = app.spawnY;
     app.clear_undrawn_pixels();
