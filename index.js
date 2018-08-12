@@ -61,19 +61,13 @@ app.gameLoop = function () {
 
 
 app.play = function () {
-    if (app.ready) {
-        app.pixiCircle.x = app.player.x
-        app.pixiCircle.y = app.player.y
 
-        app.check_player_collisions();
-        app.mouse.run();
-        // Player reacts to inputs for this frame from keybinds.js
-        app.player.physics();
-        app.player.move();
-        app.player.cameraAdjust(0,0);
+    app.pixiCircle.x = app.player.x
+    app.pixiCircle.y = app.player.y
 
-        if (app.movement.x) {
-            app.saveMap(() => console.log("Map has been saved"));
-        }
-    }
+    app.mouse.run();
+    app.player.physics();
+    app.check_player_collisions();
+    app.player.move();
+    app.player.cameraAdjust(0,0);
 }

@@ -12,36 +12,49 @@ app.mouseUp = function () {
     app.mouse_pressed = false;
 }
 
+app.pixel = function (x,y) {
+    this.x = x;
+    this.y = y;
+    this.last = null;
+    this.next = null;
+}
+
 // Pixel representation of this screen bullshit
 app.pixel_map = []
+let last_pixel = null;
+let last_v_pixel = null;
 for (i=0; i<app.SCREEN_WIDTH;i++) {
     app.pixel_map.push([])
     for (j = 0; j < app.SCREEN_HEIGHT; j++) {
-        if (j == 719) {
-            app.pixel_map[i].push(0)
+        if (j == app.SCREEN_HEIGHT - 1) {
+            let pixel = new app.pixel(i,j);
+            if (last_pixel) {
+                pixel.last = last_pixel;
+                last_pixel.next = pixel;
+            }
+            last_pixel = pixel;
+            app.pixel_map[i].push(pixel)
+        } else if (i == 0) {
+            let pixel = new app.pixel(i,j);
+            if (last_v_pixel) {
+                pixel.last = last_v_pixel;
+                last_v_pixel.next = pixel;
+            }
+            last_v_pixel = pixel;
+            app.pixel_map[i].push(pixel)
         } else {
             app.pixel_map[i].push(-1);
         }
     }
 }
 
-// Line representation of this screen bullshit
-app.line_map = [{
-    normal: [1,0],
-    start: { x: 0, y: app.SCREEN_HEIGHT },
-    end: { x: app.SCREEN_WIDTH, y: app.SCREEN_HEIGHT }
-}];
-app.line_counter = 1;
-
-app.ready = true;
-app.loadMap("1", () => {
-    console.log("loaded");
-    app.ready = true
-});
-
-
-app.putpixel = function(x,y, visualize=false) {
-    app.pixel_map[x][y] = app.line_counter;
+app.putpixel = function(x,y, last_pixel=null, visualize=false) {
+    let pixel = new app.pixel(x,y);
+    if (last_pixel) {
+        pixel.last = last_pixel;
+        last_pixel.next = pixel;
+    }
+    app.pixel_map[x][y] = pixel;
 
     // For demonstrative/debug purposes
     if (visualize) {
@@ -51,6 +64,8 @@ app.putpixel = function(x,y, visualize=false) {
         app.pixiCircle.endFill(); 
         app.stage.addChild(app.pixiCircle);
     }
+
+    return pixel;
 }
 
 app.draw_line = function(x, y, x2, y2) {
@@ -60,6 +75,7 @@ app.draw_line = function(x, y, x2, y2) {
     dy1 = 0
     dx2 = 0 
     dy2 = 0
+    let last = null;
     if (w<0) dx1 = -1 ; else if (w>0) dx1 = 1 ;
     if (h<0) dy1 = -1 ; else if (h>0) dy1 = 1 ;
     if (w<0) dx2 = -1 ; else if (w>0) dx2 = 1 ;
@@ -73,7 +89,7 @@ app.draw_line = function(x, y, x2, y2) {
     }
     numerator = longest >> 1 ;
     for (let i=0;i<=longest;i++) {
-        app.putpixel(x,y) ;
+        last = app.putpixel(x,y, last) ;
         numerator += shortest ;
         if (!(numerator<longest)) {
             numerator -= longest ;
@@ -101,22 +117,13 @@ app.mouseObject = function (renderer) {
         if (app.mouse_pressed) {
             
             if (app.mouse_x != app.last_mouse_x || app.mouse_y != app.last_mouse_y) {
-                let slope_y = (app.mouse_y - app.last_mouse_y);
+               /* let slope_y = (app.mouse_y - app.last_mouse_y);
                 let slope_x = (app.mouse_x - app.last_mouse_x);
                 let magnitude = Math.sqrt(slope_x**2 + slope_y**2)
                 let normal = [slope_x / magnitude, slope_y/ magnitude];
 
-                app.line_map.push({
-                    normal: normal,
-                    start: {
-                        x: app.last_mouse_x,
-                        y: app.last_mouse_y
-                    },
-                    end: {
-                        x: app.mouse_x,
-                        y: app.mouse_y
-                    }
-                });
+                app.line_map.push(normal);
+                console.log(normal);*/
                 
                 app.draw_line(
                     app.last_mouse_x, 

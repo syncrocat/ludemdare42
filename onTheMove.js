@@ -17,52 +17,11 @@ app.onTheMove = function (x,y,spr) {
     this.hitbox.leftCollision = false;
     this.hitbox.rightCollision = false;
     
-    //Defaults, can be overwritten in children
-    /*this.collideWithJumpThru = true;*/
-    
-    //Collisions 
-    /*this.checkMapCollisions = function () {
-        var collisionsData = app.collisions.checkReactObjectMapCollision(
-            this.hitbox.x,
-            this.hitbox.y,
-            this.hitbox.vx,
-            this.hitbox.vy,
-            this.hitbox.width,
-            this.hitbox.height,
-            this.collideWithJumpThru,
-        );
-
-        this.hitbox.vx = collisionsData.vx;
-        this.hitbox.vy = collisionsData.vy;
-        this.hitbox.onGround = collisionsData.onGround;
-        this.hitbox.rightCollision = collisionsData.rightCollision;
-        this.hitbox.leftCollision = collisionsData.leftCollision;
-    }
-    
-    //Colliding with fellow onTheMove object --> probably gonna go in a higher class later
-    this.checkObjCollisions = function (e) {
-        if (this.hitbox.x < e.hitbox.x + e.hitbox.width && this.hitbox.x + this.hitbox.width > e.hitbox.x
-            && this.hitbox.y < e.hitbox.y + e.hitbox.height && this.hitbox.y + this.hitbox.height > e.hitbox.y ) {
-            return true;
-        }
-        return false;
-    }*/
-    
     //Movement
     this.move = function() {
         this.hitbox.x += this.hitbox.vx;
         this.hitbox.y += this.hitbox.vy;
     };
-    
-    //Physics
-    this.physics = function () {
-        /*
-        There's no default implementation of physics,
-        but this should be here so it doesn't break
-        if physics is called and someone made a child 
-        without an implementation of physics
-        */
-    }
     
     //Stage setup
     this.setup = function() {
