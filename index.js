@@ -124,6 +124,9 @@ app.setup_level = function () {
     app.player.setup();
 
     app.death = new app.deathObject(100, 100, "assets/death2.png");
+    app.death.setup();
+    app.death.sprite.visible = false;
+    app.death.sprite.alpha = 0.6;
 
     // Temp garbage
     app.pixiCircle = new PIXI.Graphics();
@@ -209,6 +212,9 @@ app.play = function () {
         // Sort sprites by depth
         app.stage.children.sort(depthCompare);
 
+        app.death.physics();
+        app.death.move();
+        app.death.cameraAdjust(Math.round(app.death.hitbox.width / 2), Math.round(app.death.hitbox.height / 2));
         app.player.animate();
         app.pixiCircle.x = app.player.hitbox.x
         app.pixiCircle.y = app.player.hitbox.y
