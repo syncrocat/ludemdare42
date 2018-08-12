@@ -156,7 +156,7 @@ app.mouseObject = function (renderer) {
             app.lineGraphics.lineStyle(6, 0xFF00FF);
             app.lineGraphics.moveTo(app.lineDrawStartX,app.lineDrawStartY).lineTo(app.mouse_x, app.mouse_y);
             app.lineGraphics.lineStyle(6, 0xff00a9);
-            app.dev_graphics.moveTo(app.lineDrawStartX,app.lineDrawStartY).lineTo(app.mouse_x, app.mouse_y);
+            //app.dev_graphics.moveTo(app.lineDrawStartX,app.lineDrawStartY).lineTo(app.mouse_x, app.mouse_y);
             //app.lineGraphics.moveTo(app.last_mouse_x,app.last_mouse_y + normal[1] * 10).lineTo(app.mouse_x, app.mouse_y + normal[1]*10);
             
         }
@@ -191,7 +191,7 @@ app.mouseObject = function (renderer) {
                 console.log(app.levelNum)
                 app.drawn_graphics.lineStyle(6, app.level_color_map[app.levelNum - 1]);
                 app.drawn_graphics.moveTo(app.last_mouse_x,app.last_mouse_y).lineTo(app.mouse_x, app.mouse_y);
-                app.dev_graphics.moveTo(app.last_mouse_x,app.last_mouse_y).lineTo(app.mouse_x, app.mouse_y);
+                //app.dev_graphics.moveTo(app.last_mouse_x,app.last_mouse_y).lineTo(app.mouse_x, app.mouse_y);
             }
                 
         }

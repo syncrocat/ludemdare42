@@ -19,7 +19,7 @@ app.exitObject = function(x=0, y=0, spr='assets/exit.png') {
         let distx = Math.abs(this.hitbox.x - app.player.hitbox.x);
         let disty = Math.abs(this.hitbox.y - app.player.hitbox.y);
         //console.log(distx, disty);
-        if (Math.sqrt(distx ** 2 + disty ** 2) <= (app.player.hitbox.width) / 2) {
+        if (Math.sqrt(distx ** 2 + disty ** 2) <= (app.player.hitbox.width + 20) / 2) {
             if (app.sound == "on") {
                 let sound = new Audio("assets/sounds/ezlevel.wav");
                 sound.play();
