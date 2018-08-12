@@ -20,6 +20,9 @@ app.dev_graphics.z = 100;
 app.lineGraphics.z = 100;
 app.drawn_graphics.z = 100;
 
+app.spawnX = 100;
+app.spawnY = 100;
+
 // Load sprites
 // Load hamster sprites
 for (let i = 1; i<=6;i++) PIXI.loader.add("assets/player/" + i + ".png")
@@ -31,6 +34,7 @@ PIXI.loader
     .add("assets/door.png")
     .add("assets/reset.png")
     .add('assets/bg_1_small.png')
+    .add("assets/death2.png")
     .load(function () {
         app.setup();
     });
@@ -63,6 +67,8 @@ app.setup = function () {
     // Set up player
     app.player = new app.playerObject(100, 100, "assets/player/1.png");
     app.player.setup();
+
+    app.death = new app.deathObject(100, 100, "assets/death2.png");
 
     // Temp garbage
     app.pixiCircle = new PIXI.Graphics();

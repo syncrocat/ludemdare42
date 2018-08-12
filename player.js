@@ -102,5 +102,13 @@ app.playerObject = function(x=0, y=0, spr='assets/player/1.png') {
         }
         if (this.hitbox.vy > this.maxYSpd) this.hitbox.vy = this.maxYSpd;
 
+
+        // Death
+        if (this.hitbox.x < 0 || this.hitbox.x > app.SCREEN_WIDTH || this.hitbox.y < 0 || this.hitbox.y > app.SCREEN_HEIGHT) {
+            this.hitbox.x = app.spawnX;
+            this.hitbox.y = app.spawnY;
+            this.hitbox.vx = 0;
+            this.hitbox.vy = 0;
+        }
     }
 }

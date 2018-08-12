@@ -108,6 +108,10 @@ app.setupLevel = function() {
     app.dev_graphics.clear();
     app.player.hitbox.vx = 0;
     app.player.hitbox.vy = 0;
+    app.spawnX = app.exit_x;
+    app.spawnY = app.exit_y;
+    app.player.hitbox.x = app.spawnX;
+    app.player.hitbox.y = app.spawnY;
     app.clear_undrawn_pixels();
     app.loadMap(app.levelNum, () => {
         app.ready = true;
