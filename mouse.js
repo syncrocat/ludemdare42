@@ -1,5 +1,17 @@
 app.mouse_pressed = false;
 app.creatingMaps = false;
+app.level_color_map = [
+    0xff0065, // pink
+    0x65FF00, // green
+    0x2B8DFC, // blue
+    0xFF0000, // red
+    0xFF8300, // orange
+    0xBA55D3, // purple
+    0xfff00, // yellow
+    0xE0FFFF, // cyan
+    0xffffff, // white
+    0x000000, //black
+]
 
 // Mouse click and hold handlers
 app.mouseDown = function () {
@@ -9,12 +21,13 @@ app.mouseUp = function () {
     app.mouse_pressed = false;
 }
 
-app.pixel = function (x, y, line, pos, drawn) {
+app.pixel = function (x, y, line, pos, drawn, level) {
     this.x = x;
     this.y = y;
     this.line = line;
     this.pos = pos;
     this.drawn = drawn;
+    this.level = level;
 }
 
 // Pixel representation of this screen bullshit
@@ -34,7 +47,7 @@ app.putpixel = function(x,y, pos, drawn, visualize=false) {
     let pixel;
     if (drawn === 1) {
         line = app.drawn_line_map.length - 1;
-        pixel = new app.pixel(x,y,line,pos, drawn);
+        pixel = new app.pixel(x,y,line,pos, drawn, app.levelNum);
         app.drawn_line_map[line].push(pixel);
     } else {
         line = app.line_map.length - 1;
@@ -117,9 +130,6 @@ app.mouseObject = function (renderer) {
                 let slope_x = (app.mouse_x - app.last_mouse_x);
                 let magnitude = Math.sqrt(slope_x**2 + slope_y**2)
                 let normal = [slope_x / magnitude, - slope_y/ magnitude];
-
-                app.line_map.push(normal);
-                console.log(normal);
                 
                 app.draw_line(
                     app.last_mouse_x, 
@@ -128,13 +138,9 @@ app.mouseObject = function (renderer) {
                     app.mouse_y,
                     1);
                         
-                
-                app.lineGraphics.lineStyle(6, 	0xff0065);
-                app.lineGraphics.moveTo(app.last_mouse_x + normal[0] * 10,app.last_mouse_y).lineTo(app.mouse_x + normal[0] * 10, app.mouse_y);
-                app.lineGraphics.lineStyle(6, 0xFF00FF);
+                console.log(app.levelNum)
+                app.lineGraphics.lineStyle(6, app.level_color_map[app.levelNum - 1]);
                 app.lineGraphics.moveTo(app.last_mouse_x,app.last_mouse_y).lineTo(app.mouse_x, app.mouse_y);
-                app.lineGraphics.lineStyle(6, 0xff00a9);
-                app.lineGraphics.moveTo(app.last_mouse_x,app.last_mouse_y + normal[1] * 10).lineTo(app.mouse_x, app.mouse_y + normal[1]*10);
             }
             
         }

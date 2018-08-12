@@ -19,19 +19,20 @@ app.playerObject = function(x=0, y=0, spr='assets/player/1.png') {
     this.wheel_border.z = 20;
 
     this.animate = function () {
+        //Direction
+        if (this.hitbox.vx > 0) {
+            this.sprite.scale.x = 1;
+            this.wheel_border.scale.x = 1;
+        } else {
+            this.sprite.scale.x = -1;
+            this.wheel_border.scale.x = -1;
+        }
         // Idle or not idle
-        if (this.hitbox.vx == 0) {
+        if (this.hitbox.vx < 2 && this.hitbox.vx > -2) {
             this.sprite_state = 0;
             this.sprite.texture = PIXI.loader.resources['assets/player/1.png'].texture;
         } else {
             this.sprite_state = 1;
-            if (this.hitbox.vx > 0) {
-                this.sprite.scale.x = 1;
-                this.wheel_border.scale.x = 1;
-            } else {
-                this.sprite.scale.x = -1;
-                this.wheel_border.scale.x = -1;
-            }
         }
         // Running
         if (this.sprite_state == 1) {
