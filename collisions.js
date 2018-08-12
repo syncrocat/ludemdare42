@@ -7,7 +7,7 @@ app.collision = function(hitbox, x, y, movement_vector=null) {
     // If collision: return distance from center of player
     // Else: return -1
     dist = (Math.sqrt ((px + pvx - x)**2 + (py + pvy - y)**2) )
-    if (dist < 30) {
+    if (dist < 32) {
         return dist;
     } else {
         return -1;
@@ -36,6 +36,12 @@ app.check_player_collisions = function () {
 
     a = true;
     while (a) {
+        // Max speeds on move vect
+        if (movement_vector_magnitude > 30) {
+            console.log('is this even neccessary')
+            movement_vector = [movement_vector[0] / movement_vector_magnitude * 30, movement_vector[1] / movement_vector_magnitude * 30]
+        }
+
         // Get the closest point collision, not including pixels you're already in contact with
         let smallest_dist = 1000;
         let smallest_dist_x = -1;
@@ -67,7 +73,7 @@ app.check_player_collisions = function () {
             a = false;
         // Otherwise, respond to collision, update movement vector and repeat loop
         } else {
-            smallest_dist = 30 - smallest_dist;
+            smallest_dist = 32 - smallest_dist;
             // Use nearby pixels to find normal
             collision_pixel = app.pixel_map[smallest_dist_x][smallest_dist_y];
             

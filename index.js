@@ -14,31 +14,53 @@ app.stage.hitArea = new PIXI.Rectangle(0, 0, app.SCREEN_WIDTH, app.SCREEN_HEIGHT
 app.stage.on('mousedown', app.mouseDown);
 app.stage.on('mouseup', app.mouseUp);
 app.stage.addChild(app.lineGraphics);
+app.lineGraphics.z = 100;
 
 // Load sprites
+// Load hamster sprites
+for (let i = 1; i<=6;i++) PIXI.loader.add("assets/player/" + i + ".png")
+for (let i = 1; i<=8;i++) PIXI.loader.add("assets/player/ball_" + i + '.png')
+PIXI.loader.add("assets/player/wheel_bg.png")
+PIXI.loader.add("assets/player/wheel_fg.png")
 PIXI.loader
     .add("assets/temp.png")
     .add("assets/exit.png")
     .add("assets/reset.png")
+    .add('assets/bg_1_small.png')
     .load(function () {
         app.setup();
     });
+
+function depthCompare(a, b) {  
+    if (a.z < b.z)     
+        return -1;  
+    if (a.z > b.z)    
+        return 1;  
+    return 0;
+}
 
 app.setup = function () {
     // Set up keyboard input
     app.bindKeys();
 
+    // Add a bg
+    app.bg = new PIXI.Sprite(PIXI.loader.resources['assets/bg_1_small.png'].texture);
+    app.bg.z = -10;
+    app.bg.x = 0;
+    app.bg.y = 0;
+    app.stage.addChild(app.bg);
+
     // Set up mouse
     app.mouse = new app.mouseObject(app.renderer);
-
+    
     // Set up player
-    app.player = new app.playerObject(100, 100, "assets/temp.png");
+    app.player = new app.playerObject(100, 100, "assets/player/1.png");
     app.player.setup();
 
     // Temp garbage
     app.pixiCircle = new PIXI.Graphics();
-    app.pixiCircle.lineStyle(2, 0xFF00FF);  //(thickness, color)
-    app.pixiCircle.drawCircle(0, 0, 30);   
+    app.pixiCircle.lineStyle(2, 0x000000);  //(thickness, color)
+    app.pixiCircle.drawCircle(0, 0, 32);   
     app.pixiCircle.endFill(); 
     app.stage.addChild(app.pixiCircle);
 
@@ -65,8 +87,13 @@ app.gameLoop = function () {
 
 app.play = function () {
     if (app.ready || true) {
-        app.pixiCircle.x = app.player.x
-        app.pixiCircle.y = app.player.y
+        // Sort sprites by depth
+        app.stage.children.sort(depthCompare);
+
+        app.player.animate();
+        app.pixiCircle.x = app.player.hitbox.x
+        app.pixiCircle.y = app.player.hitbox.y
+        app.player.wheelAdjust();
 
         app.mouse.run();
         // Player reacts to inputs for this frame from keybinds.js

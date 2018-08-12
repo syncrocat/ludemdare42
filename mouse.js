@@ -47,7 +47,7 @@ app.putpixel = function(x,y, pos, drawn, visualize=false) {
     // For demonstrative/debug purposes
     if (visualize) {
         app.pixiCircle = new PIXI.Graphics();
-        app.pixiCircle.lineStyle(2, 0xFF00FF);  //(thickness, color)
+        app.pixiCircle.lineStyle(6, 0xFF00FF);  //(thickness, color)
         app.pixiCircle.drawCircle(x, y, 1);   
         app.pixiCircle.endFill(); 
         app.stage.addChild(app.pixiCircle);
@@ -113,13 +113,13 @@ app.mouseObject = function (renderer) {
         if (app.mouse_pressed) {
             
             if (app.mouse_x != app.last_mouse_x || app.mouse_y != app.last_mouse_y) {
-               /* let slope_y = (app.mouse_y - app.last_mouse_y);
+                let slope_y = (app.mouse_y - app.last_mouse_y);
                 let slope_x = (app.mouse_x - app.last_mouse_x);
                 let magnitude = Math.sqrt(slope_x**2 + slope_y**2)
-                let normal = [slope_x / magnitude, slope_y/ magnitude];
+                let normal = [slope_x / magnitude, - slope_y/ magnitude];
 
                 app.line_map.push(normal);
-                console.log(normal);*/
+                console.log(normal);
                 
                 app.draw_line(
                     app.last_mouse_x, 
@@ -127,8 +127,14 @@ app.mouseObject = function (renderer) {
                     app.mouse_x,
                     app.mouse_y,
                     1);
-
+                        
+                
+                app.lineGraphics.lineStyle(6, 	0xff0065);
+                app.lineGraphics.moveTo(app.last_mouse_x + normal[0] * 10,app.last_mouse_y).lineTo(app.mouse_x + normal[0] * 10, app.mouse_y);
+                app.lineGraphics.lineStyle(6, 0xFF00FF);
                 app.lineGraphics.moveTo(app.last_mouse_x,app.last_mouse_y).lineTo(app.mouse_x, app.mouse_y);
+                app.lineGraphics.lineStyle(6, 0xff00a9);
+                app.lineGraphics.moveTo(app.last_mouse_x,app.last_mouse_y + normal[1] * 10).lineTo(app.mouse_x, app.mouse_y + normal[1]*10);
             }
             
         }
