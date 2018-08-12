@@ -66,15 +66,7 @@ app.bindKeys = function() {
     app.key["X"].release = function() {
         app.movement.x = false;
     };
-    
-    /* Use this to log the index of whatever keys you press
-    for (let i = 0; i < 300; i++) {
-        app.key[i] = app.keyboard(i);
-        app.key[i].press = function () {
-            console.log(i);  
-        }
-    }
-    /**/
+
 };
 
 /**

@@ -14,9 +14,9 @@ app.mouseUp = function () {
 
 // Pixel representation of this screen bullshit
 app.pixel_map = []
-for (i=0; i<960;i++) {
+for (i=0; i<app.SCREEN_WIDTH;i++) {
     app.pixel_map.push([])
-    for (j = 0; j < 720; j++) {
+    for (j = 0; j < app.SCREEN_HEIGHT; j++) {
         if (j == 719) {
             app.pixel_map[i].push(0)
         } else {
@@ -24,9 +24,21 @@ for (i=0; i<960;i++) {
         }
     }
 }
+
 // Line representation of this screen bullshit
-app.line_map = [[1,0]];
+app.line_map = [{
+    normal: [1,0],
+    start: { x: 0, y: app.SCREEN_HEIGHT },
+    end: { x: app.SCREEN_WIDTH, y: app.SCREEN_HEIGHT }
+}];
 app.line_counter = 1;
+
+app.ready = true;
+app.loadMap("1", () => {
+    console.log("loaded");
+    app.ready = true
+});
+
 
 app.putpixel = function(x,y, visualize=false) {
     app.pixel_map[x][y] = app.line_counter;
@@ -94,8 +106,17 @@ app.mouseObject = function (renderer) {
                 let magnitude = Math.sqrt(slope_x**2 + slope_y**2)
                 let normal = [slope_x / magnitude, slope_y/ magnitude];
 
-                app.line_map.push(normal);
-                console.log(normal);
+                app.line_map.push({
+                    normal: normal,
+                    start: {
+                        x: app.last_mouse_x,
+                        y: app.last_mouse_y
+                    },
+                    end: {
+                        x: app.mouse_x,
+                        y: app.mouse_y
+                    }
+                });
                 
                 app.draw_line(
                     app.last_mouse_x, 

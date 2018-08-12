@@ -1,7 +1,4 @@
 // Create the renderer
-app.SCREEN_WIDTH = 960;
-app.SCREEN_HEIGHT = 720;
-
 app.renderer = new PIXI.CanvasRenderer(app.SCREEN_WIDTH, app.SCREEN_HEIGHT);
 app.renderer.backgroundColor = 0x000000;
 
@@ -54,7 +51,6 @@ app.renderer.view.addEventListener("click", (event) => {
     app.pixiCircle.y = app.player.y
      = app.mouse_x;
     let y = app.mouse_y;
-    console.log(app.whatdotcolor(x, y, 50, 50)); // sample width
 });
 
 app.gameLoop = function () {
@@ -65,14 +61,19 @@ app.gameLoop = function () {
 
 
 app.play = function () {
+    if (app.ready) {
+        app.pixiCircle.x = app.player.x
+        app.pixiCircle.y = app.player.y
 
-    app.pixiCircle.x = app.player.x
-    app.pixiCircle.y = app.player.y
+        app.check_player_collisions();
+        app.mouse.run();
+        // Player reacts to inputs for this frame from keybinds.js
+        app.player.physics();
+        app.player.move();
+        app.player.cameraAdjust(0,0);
 
-    app.check_player_collisions();
-    app.mouse.run();
-    // Player reacts to inputs for this frame from keybinds.js
-    app.player.physics();
-    app.player.move();
-    app.player.cameraAdjust(0,0);
+        if (app.movement.x) {
+            app.saveMap(() => console.log("Map has been saved"));
+        }
+    }
 }

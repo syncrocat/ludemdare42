@@ -37,7 +37,7 @@ app.check_player_collisions = function () {
     // If you've got a hot collision
     app.player.hitbox.onGround = false;
     if (smallest_dist_x != -1) {
-        let normal = app.line_map[app.pixel_map[smallest_dist_x][smallest_dist_y]];
+        let normal = app.line_map[app.pixel_map[smallest_dist_x][smallest_dist_y]].normal;
         
 
         
@@ -49,14 +49,10 @@ app.check_player_collisions = function () {
         if (new_velocity_magnitude < 15) {
             new_velocity_magnitude = 15;
         }
-        console.log("prechange");
-        console.log(new_velocity);
+
         new_velocity[0] = new_velocity[0] / incoming_magnitude * new_velocity_magnitude;
         new_velocity[1] = new_velocity[1] / incoming_magnitude * new_velocity_magnitude;
-        console.log("Incoming magnitude:", incoming_magnitude);
-        console.log("New velocity magnitude", new_velocity_magnitude);
-        console.log("New velocity");
-        console.log(new_velocity);
+
         if (Math.abs(normal[0]) > 0.7) {
             app.player.hitbox.onGround = true;        
         }

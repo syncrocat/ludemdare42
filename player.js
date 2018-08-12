@@ -19,8 +19,6 @@ app.playerObject = function(x=0, y=0, spr='assets/player.png') {
     this.upPressed = false;
 
     this.physics = function() {
-       
-
         // Right Movement
         if ((app.movement.right) && !(app.movement.left)) {
             this.hitbox.vx += this.acceleration;
@@ -59,7 +57,6 @@ app.playerObject = function(x=0, y=0, spr='assets/player.png') {
 
         // Gravity
         if (!this.hitbox.onGround) {
-            //console.log('grav')
             this.hitbox.vy += this.uravity;
         }
         if (this.hitbox.vy > this.maxYSpd) this.hitbox.vy = this.maxYSpd;
