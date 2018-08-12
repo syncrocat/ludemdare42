@@ -1,8 +1,5 @@
-// Graphics object to draw lines to
-app.myGraph = new PIXI.Graphics();
-app.myGraph.position.set(0, 0);
-app.myGraph.lineStyle(1, 0xffffff);
 app.mouse_pressed = false;
+app.creatingMaps = false;
 
 // Mouse click and hold handlers
 app.mouseDown = function () {
@@ -102,6 +99,8 @@ app.draw_line = function(x, y, x2, y2) {
     }
 }
 
+
+
 app.mouseObject = function (renderer) {
     this.renderer = renderer;
 
@@ -130,9 +129,10 @@ app.mouseObject = function (renderer) {
                     app.last_mouse_y,
                     app.mouse_x,
                     app.mouse_y);
-                app.line_counter++;
-                
-                app.myGraph.moveTo(app.last_mouse_x,app.last_mouse_y).lineTo(app.mouse_x, app.mouse_y);
+
+                app.drawn_line_counter++;
+
+                app.lineGraphics.moveTo(app.last_mouse_x,app.last_mouse_y).lineTo(app.mouse_x, app.mouse_y);
             }
             
         }

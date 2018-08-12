@@ -45,10 +45,10 @@ app.bindKeys = function() {
 
     app.key["SPACE"] = app.keyboard(32);
     app.key["SPACE"].press = function() {
-        app.movement.throwingSpear = true;
+        app.movement.space = true;
     };
     app.key["SPACE"].release = function() {
-        app.movement.throwingSpear = false;
+        app.movement.space = false;
     };
     
     app.key["Z"] = app.keyboard(90);
@@ -67,6 +67,13 @@ app.bindKeys = function() {
         app.movement.x = false;
     };
 
+    app.key["C"] = app.keyboard(67);
+    app.key["C"].press = function() {
+        app.movement.c = true;
+    };
+    app.key["C"].release = function() {
+        app.movement.c = false;
+    };
 };
 
 /**
