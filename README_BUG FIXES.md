@@ -4,83 +4,8 @@ Summary:
 - Removed developer shortcuts/cheats left in unintentionally
 -  Smoothed out lines in level 3 so that it isnt broken
 
-Code:
-
-app.key["Q"] = app.keyboard(81);
-    app.key["Q"].press = function() {
-        app.movement.q = true;
-        app.lineDrawStartX = app.mouse_x;
-        app.lineDrawStartY = app.mouse_y;
-        //app.movement.q = true;
-        //app.lineDrawStartX = app.mouse_x;
-        //app.lineDrawStartY = app.mouse_y;
-    };
-    app.key["Q"].release = function() {
-        app.movement.q = false;
-        app.drawLinePlz = true;
-        //app.movement.q = false;
-        //app.drawLinePlz = true;
-    };
-     app.key["SPACE"] = app.keyboard(32);
-    app.key["SPACE"].press = function() {
-        app.movement.space = true;
-        /*app.movement.space = true;
-        app.lineGraphics.clear();
-        app.pixel_map = []
-        app.line_map = []
-@@ -68,185 +68,46 @@ app.bindKeys = function() {
-            for (j = 0; j < app.SCREEN_HEIGHT; j++) {
-                app.pixel_map[i].push(-1);
-            }
-        }
-        }*/
-    };
-    app.key["SPACE"].release = function() {
-        app.movement.space = false;
-    };
-    
-    app.key["Z"] = app.keyboard(90);
-    app.key["Z"].press = function() {
-        app.movement.z = true;
-        //app.movement.z = true;
-    };
-    app.key["Z"].release = function() {
-        app.movement.z = false;
-       // app.movement.z = false;
-    };
-    
-    app.key["X"] = app.keyboard(88);
-    app.key["X"].press = function() {
-        app.movement.x = true;
-        //app.movement.x = true;
-    };
-    app.key["X"].release = function() {
-        app.movement.x = false;
-        ///app.movement.x = false;
-    };
-     app.key["C"] = app.keyboard(67);
-    app.key["C"].press = function() {
-        app.movement.c = true;
-        //app.movement.c = true;
-    };
-    app.key["C"].release = function() {
-        app.movement.c = false;
-        //app.movement.c = false;
-    };
-     app.key["V"] = app.keyboard(87);
-    app.key["V"].press = function() {
-        app.movement.v = true;
-        app.drawingLines = !app.drawingLines;
-        console.log("Drawing lines:", app.drawingLines);
-       // app.movement.v = true;
-       // app.drawingLines = !app.drawingLines;
-      //  console.log("Drawing lines:", app.drawingLines);
-    };
-    app.key["V"].release = function() {
-        app.movement.v = false;
-        //app.movement.v = false;
-    }
-     app.key["1"] = app.keyboard(49);
+Deleted code:
+ app.key["1"] = app.keyboard(49);
     app.key["1"].press = function() {
         app.movement.one = true;
         app.levelNum = 1;
@@ -210,5 +135,65 @@ app.key["Q"] = app.keyboard(81);
     app.key["0"].release = function() {
         app.movement.zero = false;
     };
-};
- /**
+    
+    
+    
+    Changed code (the first ones are replaced with what is after the //):
+        app.movement.q = true;
+        app.lineDrawStartX = app.mouse_x;
+        app.lineDrawStartY = app.mouse_y;
+        //app.movement.q = true;
+        //app.lineDrawStartX = app.mouse_x;
+        //app.lineDrawStartY = app.mouse_y;
+        
+        
+        app.movement.q = false;
+        app.drawLinePlz = true;
+        //app.movement.q = false;
+        //app.drawLinePlz = true;
+        
+         app.movement.space = true;
+        /*app.movement.space = true;
+        
+         }
+        }*/
+        
+        
+        app.movement.z = true;
+        //app.movement.z = true;
+        
+        
+        app.movement.z = false;
+       // app.movement.z = false;
+       
+       
+       app.movement.x = true;
+       //app.movement.x = true;
+        
+        app.movement.x = false;
+        ///app.movement.x = false;
+        
+        
+         app.movement.c = true;
+        //app.movement.c = true;
+        
+        
+         app.movement.c = false;
+        //app.movement.c = false;
+        
+        
+         app.movement.v = true;
+        app.drawingLines = !app.drawingLines;
+        console.log("Drawing lines:", app.drawingLines);
+       // app.movement.v = true;
+       // app.drawingLines = !app.drawingLines;
+      //  console.log("Drawing lines:", app.drawingLines);
+      
+      
+       app.movement.v = false;
+        //app.movement.v = false;
+        
+        
+        
+        
+    
